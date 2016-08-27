@@ -8,8 +8,8 @@ OCA.Files_Markdown.overWriteEditor = function () {
 		var reopenEditorOriginal = window.reopenEditor;
 	}
 	// Fades out the editor.
-	window.hideFileEditor = function () {
-		hideFileEditorOriginal();
+	window.hideFileEditor = function (noReload) {
+		hideFileEditorOriginal(noReload);
 		if ($('#editor').attr('data-edited') === 'true') {
 			$('#md_preview').hide();
 		} else {
@@ -71,7 +71,26 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 			onChange();
 		});
 	this.loadMathJax();
+	
+	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="toggle_preview">Hide preview</button>');
+	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').unbind();
+	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').click(OCA.Files_Markdown.Editor.prototype.togglePreview);
 };
+
+OCA.Files_Markdown.Editor.prototype.togglePreview = function () {
+	if($('#preview_wrapper').hasClass('hidden')){
+		$('#preview_wrapper').removeClass('hidden');
+		$('#editor').width('50%');
+		window.aceEditor.renderer.updateFull(true);
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text('Hide preview');
+	}
+	else{
+		$('#preview_wrapper').addClass('hidden');
+		$('#editor').width('100%');
+		window.aceEditor.renderer.updateFull(true);
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text('Show preview');
+	}
+}
 
 OCA.Files_Markdown.Editor.prototype.getUrl = function (path) {
 	if (!path) {
@@ -122,7 +141,7 @@ OCA.Files_Markdown.Editor.prototype.loadMathJax = function () {
 	script.type = "text/x-mathjax-config";
 	script[(window.opera ? "innerHTML" : "text")] =
 		"MathJax.Hub.Config({\n" +
-		"  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }\n" +
+		"  tex2jax: {ignoreClass: 'ace_content',  inlineMath: [['$','$'], ['\\\\(','\\\\)']] }\n" +
 		"});";
 	this.head.appendChild(script);
 
@@ -135,15 +154,18 @@ OCA.Files_Markdown.Editor.prototype.loadMathJax = function () {
 };
 
 $(document).ready(function () {
+	
 	if (OCA.Files) {
 		OCA.Files.fileActions.register('text/markdown', 'Edit', OC.PERMISSION_READ, '', function (filename, context) {
 			window.showFileEditor(context.dir, filename).then(function () {
 				var editor = new OCA.Files_Markdown.Editor($('#editor'), $('head')[0], context.dir);
+				window.aceEditor.setAutoScrollEditorIntoView(true);
 				editor.init(window.aceEditor.getSession());
 			});
 		});
 		OCA.Files.fileActions.setDefault('text/markdown', 'Edit');
 
 		OCA.Files_Markdown.overWriteEditor();
+		
 	}
 });

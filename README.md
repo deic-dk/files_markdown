@@ -1,6 +1,8 @@
 ownCloud Markdown Editor
 =================
 
+*Cloned from OC7 version of https://github.com/icewind1991/files_markdown.git*
+
 Extends the texteditor in ownCloud with a live preview for markdown files
 
 ![Markdown Editor](https://i.imgur.com/UAIocNZ.png)

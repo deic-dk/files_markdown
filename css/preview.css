@@ -120,7 +120,7 @@
 }
 
 #md_preview hr {
-	background: transparent url("../../images/modules/pulls/dirty-shade.png") repeat-x 0 0;
+	/*background: transparent url("../../images/modules/pulls/dirty-shade.png") repeat-x 0 0;*/
 	border: 0 none;
 	color: #cccccc;
 	height: 4px;
@@ -415,4 +415,8 @@
 #md_preview pre code, #md_preview pre tt {
 	background-color: transparent;
 	border: none;
+}
+
+#toggle_preview {
+	margin-left: 20%;
 }
