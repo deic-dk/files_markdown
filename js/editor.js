@@ -157,7 +157,7 @@ $(document).ready(function () {
 	
 	if (OCA.Files) {
 		OCA.Files.fileActions.register('text/markdown', 'Edit', OC.PERMISSION_READ, '', function (filename, context) {
-			window.showFileEditor(context.dir, filename).then(function () {
+			window.showFileEditor(context.dir, filename, context.id, context.owner).then(function () {
 				var editor = new OCA.Files_Markdown.Editor($('#editor'), $('head')[0], context.dir);
 				window.aceEditor.setAutoScrollEditorIntoView(true);
 				editor.init(window.aceEditor.getSession());
