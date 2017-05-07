@@ -41,7 +41,7 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 	this.wrapper.attr('id', 'preview_wrapper');
 	this.wrapper.append(this.preview);
 	this.editor.parent().append(this.wrapper);
-	this.editor.css('width', '50%');
+	this.editor.css('width', '49.2%');
 	var onChange = this._onChange.bind(this, editorSession);
 	var getUrl = this.getUrl.bind(this);
 
@@ -80,7 +80,7 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 OCA.Files_Markdown.Editor.prototype.togglePreview = function () {
 	if($('#preview_wrapper').hasClass('hidden')){
 		$('#preview_wrapper').removeClass('hidden');
-		$('#editor').width('50%');
+		$('#editor').width('49.2%');
 		window.aceEditor.renderer.updateFull(true);
 		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text('Hide preview');
 	}
