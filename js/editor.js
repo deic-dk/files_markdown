@@ -99,6 +99,10 @@ OCA.Files_Markdown.Editor.prototype.getUrl = function (path) {
 	if (path.substr(0, 7) === 'http://' || path.substr(0, 8) === 'https://' || path.substr(0, 3) === '://') {
 		return path;
 	} else {
+		if (path.substr(0, 2) == ':/' && $('#app-content-notes:visible').length) {
+			// Support Joplin-style image links
+			path = path.replace(/:/, '/'+$('#app-content-notes:visible').attr('basedir')+'/.resource');
+		}
 		if (path.substr(0, 1) !== '/') {
 			path = this.dir + '/' + path;
 		}
