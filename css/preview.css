@@ -91,8 +91,8 @@
 }
 
 #md_preview h1 {
-	font-size: 34px;
-	margin: 40px 0 20px;
+	font-size: 30px;
+	margin: 20px 0 20px;
 }
 
 #md_preview h2 {
@@ -418,5 +418,12 @@
 }
 
 #toggle_preview {
-	margin-left: 20%;
+	margin-left: 12px;
+}
+#toggle_editor {
+	margin-left: 4%;
+}
+
+#insert_image {
+	margin-left: 4%;
 }

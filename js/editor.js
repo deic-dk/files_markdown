@@ -9,6 +9,7 @@ OCA.Files_Markdown.overWriteEditor = function () {
 	}
 	// Fades out the editor.
 	window.hideFileEditor = function (noReload) {
+		$('div#content-wrapper').css('overflow-y', 'auto');
 		hideFileEditorOriginal(noReload);
 		if ($('#editor').attr('data-edited') === 'true') {
 			$('#md_preview').hide();
@@ -42,6 +43,9 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 	this.wrapper.append(this.preview);
 	this.editor.parent().append(this.wrapper);
 	this.editor.css('width', '49.2%');
+	$('.ace_gutter').css('width', '0');
+	$('.ace_scroller').css('left', '0');
+	$('div#content-wrapper').css('overflow-y', 'hidden');
 	var onChange = this._onChange.bind(this, editorSession);
 	var getUrl = this.getUrl.bind(this);
 
@@ -72,9 +76,22 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 		});
 	this.loadMathJax();
 	
-	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="toggle_preview">Hide preview</button>');
+	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_image">'+t('files_markdown', 'Insert image')+'</button>');
+
+	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="toggle_editor">'+t('files_markdown', 'Hide editor')+'</button>');
+	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').unbind();
+	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').click(OCA.Files_Markdown.Editor.prototype.toggleEditor);
+	
+	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="toggle_preview">'+t('files_markdown', 'Hide preview')+'</button>');
 	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').unbind();
 	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').click(OCA.Files_Markdown.Editor.prototype.togglePreview);
+	
+	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').after('<div id="choose_image_dialog" display="none">\
+			<div class="loadFolderTree"></div>\
+			<div class="file" style="visibility: hidden; display:inline;"></div>\
+		</div>');
+	
+	OCA.Files_Markdown.Editor.prototype.initDialog();
 };
 
 OCA.Files_Markdown.Editor.prototype.togglePreview = function () {
@@ -82,13 +99,28 @@ OCA.Files_Markdown.Editor.prototype.togglePreview = function () {
 		$('#preview_wrapper').removeClass('hidden');
 		$('#editor').width('49.2%');
 		window.aceEditor.renderer.updateFull(true);
-		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text('Hide preview');
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text(t('files_markdown', 'Hide preview'));
 	}
 	else{
 		$('#preview_wrapper').addClass('hidden');
 		$('#editor').width('100%');
 		window.aceEditor.renderer.updateFull(true);
-		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text('Show preview');
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text(t('files_markdown', 'Show preview'));
+	}
+}
+
+OCA.Files_Markdown.Editor.prototype.toggleEditor = function () {
+	if($('#editor').hasClass('hidden')){
+		$('#editor').removeClass('hidden');
+		$('#preview_wrapper').css('width', '51.0%');
+		//window.aceEditor.renderer.updateFull(true);
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').text(t('files_markdown', 'Hide editor'));
+	}
+	else{
+		$('#editor').addClass('hidden');
+		$('#preview_wrapper').css('width', '90.7%');
+		//window.aceEditor.renderer.updateFull(true);
+		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').text(t('files_markdown', 'Show editor'));
 	}
 }
 
@@ -157,12 +189,71 @@ OCA.Files_Markdown.Editor.prototype.loadMathJax = function () {
 	this.head.appendChild(script);
 };
 
+OCA.Files_Markdown.Editor.prototype.chosenFile = '';
+
+OCA.Files_Markdown.Editor.prototype.insertImage = function (file) {
+	var text = "!["+OCA.Files_Markdown.Editor.prototype.chosenFile+"](/"+OCA.Files_Markdown.Editor.prototype.chosenFile+")";
+	window.aceEditor.insert(text);
+};
+
+
+OCA.Files_Markdown.Editor.prototype.initDialog = function (file) {
+	var buttons = {};
+	buttons[t("files_markdown", "Choose")] = function() {
+			OCA.Files_Markdown.Editor.prototype.insertImage();
+			choose_image_dialog.dialog("close");
+ 		};
+ 		buttons[t("files_markdown", "Cancel")] = function() {
+			choose_image_dialog.dialog("close");
+ 		};
+ 		choose_image_dialog = $("#choose_image_dialog").dialog({//create dialog, but keep it closed
+	   title: t("files_markdown", "Choose image"),
+	    height: 440,
+	    width: 620,
+	    modal: true,
+	    dialogClass: "no-close",
+	    autoOpen: false,
+	    resizeable: false,
+	    draggable: false,
+	    buttons: buttons,
+		  folder: '/',
+	  });
+	
+	$('.viewcontainer:not(.hidden) #editorcontrols #insert_image').unbind();
+  $('.viewcontainer:not(.hidden) #editorcontrols #insert_image').click(function(){
+  	choose_image_dialog.dialog('open');
+  	choose_image_dialog.show();
+  	$('#choose_image_dialog div.loadFolderTree').fileTree({
+  	  //root: '/',
+  	  script: '../../apps/chooser/jqueryFileTree.php',
+  	  multiFolder: false,
+  	  selectFile: true,
+  	  selectFolder: false,
+  	  folder: '',
+  	  file: '',
+  	  group: ''
+  	},
+  	// single-click
+  	function(file) {
+  		OCA.Files_Markdown.Editor.prototype.chosenFile = file;
+  	},
+  	// double-click
+  	function(file) {
+  	  //if(file.indexOf("/", file.length-1)!=-1){// folder double-clicked
+  	  	OCA.Files_Markdown.Editor.prototype.insertImage();
+  		choose_image_dialog.dialog("close");
+  	 // }
+  	});
+    });
+};
+
 $(document).ready(function () {
 	
 	if (OCA.Files) {
 		OCA.Files.fileActions.register('text/markdown', 'Edit', OC.PERMISSION_READ, '', function (filename, context) {
 			window.showFileEditor(context.dir, filename, context.id, context.owner).then(function () {
 				var editor = new OCA.Files_Markdown.Editor($('#editor'), $('head')[0], context.dir);
+				OCA.Files_Markdown.Editor.prototype.editor = editor;
 				window.aceEditor.setAutoScrollEditorIntoView(true);
 				editor.init(window.aceEditor.getSession());
 			});
@@ -172,4 +263,5 @@ $(document).ready(function () {
 		OCA.Files_Markdown.overWriteEditor();
 		
 	}
+	
 });
