@@ -30,11 +30,14 @@ OCA.Files_Markdown.markedLoadPromise = null;
 OCA.Files_Markdown.highlightLoaded = null;
 
 OCA.Files_Markdown.Editor = function (editor, head, dir) {
-	this.editor = editor;
-	this.head = head;
-	this.dir = dir;
-	this.preview = $('<div/>');
-	this.wrapper = $('<div/>');
+	if(typeof this.wrapper === 'undefined'){
+		$('#preview_wrapper').remove();
+		this.editor = editor;
+		this.head = head;
+		this.dir = dir;
+		this.preview = $('<div/>');
+		this.wrapper = $('<div/>');
+	}
 };
 
 OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
@@ -118,7 +121,7 @@ OCA.Files_Markdown.Editor.prototype.toggleEditor = function () {
 	}
 	else{
 		$('#editor').addClass('hidden');
-		$('#preview_wrapper').css('width', '90.7%');
+		$('#preview_wrapper:not(.hidden)').css('width', '90.7%');
 		//window.aceEditor.renderer.updateFull(true);
 		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').text(t('files_markdown', 'Show editor'));
 	}

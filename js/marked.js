@@ -178,7 +178,10 @@ Lexer.prototype.lex = function(src) {
     .replace(/\r\n|\r/g, '\n')
     .replace(/\t/g, '    ')
     .replace(/\u00a0/g, ' ')
-    .replace(/\u2424/g, '\n');
+    .replace(/\u2424/g, '\n')
+    /*Joplin images. They will only be there if notes is present and enabled, so ok to hardcode the path*/
+    .replace(/(\<img [^\>]*) src=":\/([^"]+)"/g, '$1 src="'+OC.webroot+
+       '/apps/notes/ajax/actions.php?action=getresource&name=$2&requesttoken='+oc_requesttoken+'"');
 
   return this.token(src, true);
 };
