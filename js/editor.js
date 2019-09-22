@@ -181,6 +181,9 @@ OCA.Files_Markdown.Editor.prototype.loadMathJax = function () {
 	script[(window.opera ? "innerHTML" : "text")] =
 		"MathJax.Hub.Config({\n" +
 		"  tex2jax: {ignoreClass: 'ace_content',  inlineMath: [['$','$'], ['\\\\(','\\\\)']] }\n" +
+		"});"+
+		"MathJax.Hub.Config({\n" +
+		"  TeX: {extensions: ['[MathJax]/extensions/mhchem.js']}\n" +
 		"});";
 	this.head.appendChild(script);
 
