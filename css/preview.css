@@ -174,11 +174,11 @@
 }
 
 #md_preview ul :first-child, #md_preview ol :first-child {
-	margin-top: 0;
+	margin-top: 3px;
 }
 
 #md_preview ul :last-child, #md_preview ol :last-child {
-	margin-bottom: 15px;
+	margin-bottom: 7px;
 }
 
 #md_preview dl {
@@ -420,6 +420,7 @@
 #toggle_preview {
 	margin-left: 12px;
 }
+
 #toggle_editor {
 	margin-left: 4%;
 }
@@ -427,3 +428,14 @@
 #insert_image {
 	margin-left: 4%;
 }
+
+#md_preview thead tr {
+	background-color: #f8f8f8;
+}
+
+#md_preview input[type="radio"][disabled], #md_preview input[type="checkbox"][disabled],
+#md_preview input[type="radio"].disabled, #md_preview input[type="checkbox"].disabled,
+#md_preview fieldset[disabled] input[type="radio"], #md_preview fieldset[disabled] input[type="checkbox"] {
+	cursor: default;
+}
+
