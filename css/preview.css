@@ -439,3 +439,21 @@
 	cursor: default;
 }
 
+[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }
+[touch-action="auto"]{ -ms-touch-action: auto; touch-action: auto; }
+[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }
+[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }
+[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }
+
+#insert_scribble {
+	margin-left: 12px;
+}
+
+@media(max-width: 768px) and (max-height: 1024px) {
+	#preview_wrapper, #editorcontrols #toggle_editor, #editorcontrols #toggle_preview {
+		display: none;
+	}
+	#editor.ace_editor {
+		width: 100%;
+	}
+}
