@@ -77,7 +77,6 @@
 <div id="editor" touch-action="none" class="ms-editor" style="font-size: 10px;">
 </div>
 
-<script type="text/javascript" async="" src="../../../apps/files_markdown/js/myscript/analytics.js"></script>
 <script type="text/javascript" src="../../../apps/files_markdown/js/myscript/pep.js"></script>
 <script type="text/javascript" src="../../../apps/files_markdown/js/myscript/intro.js"></script>
 <script type="text/javascript" src="../../../apps/files_markdown/js/myscript/myscript.js"></script>
