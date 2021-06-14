@@ -5,12 +5,23 @@ OCA.Files_Markdown = {};
 OCA.Files_Markdown.overWriteEditor = function () {
 	if (window.hideFileEditor) {
 		var hideFileEditorOriginal = window.hideFileEditor;
+		var justHideFileEditorOriginal = window.justHideFileEditor;
 		var reopenEditorOriginal = window.reopenEditor;
 	}
 	// Fades out the editor.
 	window.hideFileEditor = function (noReload) {
 		$('div#content-wrapper').css('overflow-y', 'auto');
 		hideFileEditorOriginal(noReload);
+		if ($('#editor').attr('data-edited') === 'true') {
+			$('#md_preview').hide();
+		} else {
+			$('#md_preview').remove();
+		}
+	};
+	
+	window.justHideFileEditor = function (noReload) {
+		$('div#content-wrapper').css('overflow-y', 'auto');
+		justHideFileEditorOriginal(noReload);
 		if ($('#editor').attr('data-edited') === 'true') {
 			$('#md_preview').hide();
 		} else {
