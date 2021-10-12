@@ -129,8 +129,10 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 		});
 	this.loadMathJax();
 	
-	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_image">'+t('files_markdown', 'Insert image')+'</button>');
-	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_scribble">'+t('files_markdown', 'Insert scribble')+'</button>');
+	if(!$('#body-public').length && $('#permissions').length && (parseInt($('#permissions').val()) & OC.PERMISSION_CREATE) !== 0){
+		$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_image">'+t('files_markdown', 'Insert image')+'</button>');
+		$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_scribble">'+t('files_markdown', 'Insert scribble')+'</button>');
+	}
 	
 	$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="toggle_editor">'+t('files_markdown', 'Hide editor')+'</button>');
 	$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').unbind();
@@ -490,7 +492,7 @@ OCA.Files_Markdown.Editor.prototype.initDialog = function (file) {
 
 $(document).ready(function () {
 	
-	if (OCA.Files) {
+	if (OCA.Files && !$('body#body-public').length) {
 		OCA.Files.fileActions.register('text/markdown', 'Edit', OC.PERMISSION_READ, '', function (filename, context) {
 			window.showFileEditor(context.dir, filename, context.id, context.owner).then(function () {
 				var editor = new OCA.Files_Markdown.Editor($('#editor'), $('head')[0], context.dir);
