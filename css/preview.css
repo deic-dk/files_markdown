@@ -454,6 +454,14 @@
 	margin-left: 12px;
 }
 
+.introjs-tooltiptext{
+	white-space: normal;
+}
+
+#info-header-link {
+	display: none;
+}
+
 @media(max-width: 768px) and (max-height: 1024px) {
 	#preview_wrapper, #editorcontrols #toggle_editor, #editorcontrols #toggle_preview {
 		display: none;

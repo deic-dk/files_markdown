@@ -303,11 +303,11 @@ OCA.Files_Markdown.Editor.prototype.bindScribbleEditor = function () {
 		/**
 		 * Launch the tutorial when editor is loaded and no item in local storage
 		 */
-		if (!localStorage.getItem("tutorialLaunched") && !tutoLaunched) {
+		/*if (!localStorage.getItem("tutorialLaunched") && !tutoLaunched) {
 			console.log('ok');
 			setTimeout(() => startIntro($("#insert_scribble_dialog").get(0)), 500);
 			tutoLaunched = true;
-		}
+		}*/
 		if (!evt.detail.canUndo === true) {
 			undoElement.setAttribute('disabled', `${!evt.detail.canUndo}`);
 		} else {
