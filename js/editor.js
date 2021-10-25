@@ -129,7 +129,8 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 		});
 	this.loadMathJax();
 	
-	if(!$('#body-public').length && $('#permissions').length && (parseInt($('#permissions').val()) & OC.PERMISSION_CREATE) !== 0){
+	if(!$('#body-public').length && $('#permissions').length && (parseInt($('#permissions').val()) & OC.PERMISSION_CREATE) !== 0 ||
+			$('#app-content-notes').length){
 		$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_image">'+t('files_markdown', 'Insert image')+'</button>');
 		$('.viewcontainer:not(.hidden) #editorcontrols #editor_close').before('<button id="insert_scribble">'+t('files_markdown', 'Insert scribble')+'</button>');
 	}
@@ -165,12 +166,13 @@ OCA.Files_Markdown.Editor.prototype.togglePreview = function () {
 		window.aceEditor.renderer.updateFull(true);
 		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_preview').text(t('files_markdown', 'Show preview'));
 	}
+	window.aceEditor.resize();
 }
 
 OCA.Files_Markdown.Editor.prototype.toggleEditor = function () {
 	if($('#editor').hasClass('hidden')){
 		$('#editor').removeClass('hidden');
-		$('#preview_wrapper').css('width', '51.0%');
+		$('#preview_wrapper').css('width', '49.5%');
 		//window.aceEditor.renderer.updateFull(true);
 		$('.viewcontainer:not(.hidden) #editorcontrols #toggle_editor').text(t('files_markdown', 'Hide editor'));
 	}
