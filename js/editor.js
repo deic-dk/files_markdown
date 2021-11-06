@@ -83,6 +83,7 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 	if($(window).width()>768){
 		this.editor.css('width', '49.2%');
 	}
+	this.editor.css('height',  'calc(100vh - 162px)');
 	$('.ace_gutter').css('width', '0');
 	$('.ace_scroller').css('left', '0');
 	$('div#content-wrapper').css('overflow-y', 'hidden');
