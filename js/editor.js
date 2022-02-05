@@ -112,7 +112,8 @@ OCA.Files_Markdown.Editor.prototype.init = function (editorSession) {
 			  if (href === null) {
 			    return text;
 			  }
-			  var out = '<a href="' + getUrl(escape(href)) + '"';
+			  //var out = '<a href="' + getUrl(escape(href)) + '"'; // why?
+			  var out = '<a href="' + getUrl(href) + '"';
 			  if (title) {
 			    out += ' title="' + title + '"';
 			  }
