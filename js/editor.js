@@ -245,7 +245,7 @@ OCA.Files_Markdown.Editor.prototype.paste_scribble = function () {
 }
 
 OCA.Files_Markdown.Editor.prototype.loadMathJax = function () {
-	if (OCA.Files_Markdown.mathJaxLoaded) {
+	if (OCA.Files_Markdown.mathJaxLoaded || !$('#content').length /*Don't load this on the blog*/) {
 		return;
 	}
 	OCA.Files_Markdown.mathJaxLoaded = true;
